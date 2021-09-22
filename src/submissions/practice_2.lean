@@ -10,6 +10,12 @@ example : true := true.intro
 
 --example : false :=     -- trick question? why?
 
+/-
+P is true if and only if P or P is true because
+of the or elimination rule and the or introduction
+rule.
+-/
+
 example : ∀ (P : Prop), P ∨ P ↔ P := 
 begin
   assume P, 
@@ -28,6 +34,11 @@ begin
     exact or.intro_left P p,
 end
 
+/-
+P is true if and only if P and P are true because of the 
+and elimination and introduction rules.
+-/
+
 example : ∀ (P : Prop), P ∧ P ↔ P := 
 begin
   assume P,
@@ -42,6 +53,11 @@ begin
       exact p,
 end
 
+/-
+P or Q is true if and only if Q or P is true because
+of the or symmetry rule.
+-/
+
 example : ∀ (P Q : Prop), P ∨ Q ↔ Q ∨ P := 
 begin
   assume P Q,
@@ -50,6 +66,11 @@ begin
   exact or.symm,
 end
 
+/-
+P and Q are true if and only if Q and P are true
+because of the and symmetry rule.
+-/
+
 example : ∀ (P Q : Prop), P ∧ Q ↔ Q ∧ P := 
 begin
   assume P Q,
@@ -57,6 +78,14 @@ begin
   exact and.symm,
   exact and.symm,
 end
+
+/-
+P and Q or R is true if and only if P and Q or P and R is true
+because P is always true on both sides of the statement, and 
+Q or R will always be true on the right side since either P and Q
+or P and R will be true. This uses the introduction rules for and 
+as well as or.
+-/
 
 example : ∀ (P Q R : Prop), P ∧ (Q ∨ R) ↔ (P ∧ Q) ∨ (P ∧ R) := 
 begin
@@ -86,6 +115,13 @@ begin
     apply or.intro_right,
     exact p_right,
 end
+
+/-
+P or Q and R is true if and only if P or Q and P or R are true
+because between P or Q and P or R, if P isn't true, then
+Q and R both have to be true within those or statements.
+This proof uses both introduction rules, similar to the above proof.
+-/
 
 example : ∀ (P Q R : Prop), P ∨ (Q ∧ R) ↔ (P ∨ Q) ∧ (P ∨ R) := 
 begin
@@ -119,6 +155,13 @@ begin
     exact p_right,
 end
 
+/-
+P and P or Q is true if and only if P is true
+because P and anything always implies P, and P 
+implies P ∧ P. This proof uses the and and or introduction
+rules.
+-/
+
 example : ∀ (P Q : Prop), P ∧ (P ∨ Q) ↔ P := 
 begin
   assume P Q,
@@ -129,9 +172,16 @@ begin
     assume p,
     apply and.intro,
     exact p,
-    exact or.intro_left Q p,
+    apply or.intro_left,
+    exact p,
 
 end
+
+/-
+P or P and Q is true if and only if P is true because
+P → P and P ∧ Q → P and the other way around P → P. This 
+proof uses the and and or introduction rules.
+-/
 
 example : ∀ (P Q : Prop), P ∨ (P ∧ Q) ↔ P := 
 begin
@@ -146,6 +196,14 @@ begin
     exact p, 
 end
 
+/-
+P or true is true if and only if true is true because
+true will always be true, and because of the or statement
+we can effectively ignore P and simplify to true → true
+and this staement is true in both directions. This proof uses
+the true and or introduction rules.
+-/
+
 example : ∀ (P : Prop), P ∨ true ↔ true := 
 begin
   assume P,
@@ -156,6 +214,14 @@ begin
     apply or.intro_right,
     exact true.intro,
 end
+
+/-
+P or false is true if and only if P is true for a
+similar reason to the above proof. Since its an or
+statement we can effectively ignore false and simplify
+to P → P. This proof uses the or introduction rule and 
+the false elimination rule.
+-/
 
 example : ∀ (P : Prop), P ∨ false ↔ P := 
 begin
@@ -171,6 +237,12 @@ begin
     exact p,
 end
 
+/-
+P and true is true if and only if P is true because 
+true is always true and P always implies P. This proof
+uses the and intro and true intro rules.
+-/
+
 example : ∀ (P : Prop), P ∧ true ↔ P := 
 begin
   assume P,
@@ -181,6 +253,15 @@ begin
     exact p,
     exact true.intro,
 end
+
+/-
+P and false is true if and only if false is true. I
+don't 100% understand how this proof works, I just
+know that lean accepted what I wrote. I don't get how
+false can imply a proposition, same as true can't imply
+a proposition. If its possible some clarification on this
+example would greatly help me.
+-/
 
 example : ∀ (P : Prop), P ∧ false ↔ false := 
 begin
