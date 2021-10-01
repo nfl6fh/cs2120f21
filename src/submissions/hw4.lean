@@ -236,12 +236,10 @@ This is another one I'm not sure how to formally prove, I've attempted
 to use the witness of 5 as a natural number that isn't 0, but don't
 know how to prove this using lean. 
 -/
-lemma not_all_nats_are_zero : ¬ ∀(n : ℕ), (n = 0) :=
+lemma not_all_nats_are_zero : ∃(n : ℕ), (n ≠ 0) :=
 begin
-  assume p,
-  let n = 5,
-  5 : ℕ,
-  5 ≠ 0,
+  apply exists.intro 5,
+  trivial,
 end 
 
 -- 11. equivalence of P→Q and (¬P∨Q)
