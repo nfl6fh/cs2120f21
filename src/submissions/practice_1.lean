@@ -13,6 +13,15 @@ this question that makes it much easier to answer than it might
 at first appear.
 -/
 
+def func: ∀ (n : ℕ), ℕ := 
+begin
+  assume h,
+  assumption,
+end
+
+#reduce func 3
+
+
 /- 
 Using the symmetric propeorty of equality we can take the statement
 z = w and make it w = z.

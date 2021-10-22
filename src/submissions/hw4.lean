@@ -12,8 +12,8 @@ end
 example : 0 ≠ 0 → 2 = 3 :=
 begin
   assume h,
-  have f : false := h (eq.refl 0),
-  exact false.elim (f),
+  have zero := eq.refl 0,
+  contradiction,
 end
 
 -- 3
@@ -52,7 +52,7 @@ begin
   assume P,
   assume h,
   have pornp := classical.em P,
-  cases pornp with p pn,
+  cases pornp,
   assumption,
   contradiction,
 end
@@ -69,12 +69,18 @@ theorem demorgan_1 : ∀ (P Q : Prop), ¬ (P ∧ Q) ↔ ¬ P ∨ ¬ Q :=
 begin
   assume P Q,
   apply iff.intro,
-  assume p,
+  assume h,
   have pornp := classical.em P,
-  have qornq := classical.em Q,
   cases pornp,
+  have qornq := classical.em Q,
   cases qornq,
-
+  have pandq := and.intro pornp qornq,
+  contradiction,
+  apply or.inr,
+  exact qornq,
+  apply or.inl,
+  exact pornp,
+  admit,
 end
 
 
@@ -88,8 +94,22 @@ then neither P nor Q are true so P ∨ Q would be false.
 theorem demorgan_2 : ∀ (P Q : Prop), ¬ (P ∨ Q) → ¬P ∧ ¬Q :=
 begin
   assume P Q p,
+  have pornp := classical.em P,
+  cases pornp,
+  have qornq := classical.em Q,
+  cases qornq,
+  have porq := or.intro_left Q pornp,
+  contradiction,
+  have porq := or.intro_left Q pornp,
+  contradiction,
+  have qornq := classical.em Q,
+  cases qornq,
+  have porq := or.intro_left P qornq,
+  have qorp := or.symm porq,
+  contradiction,
   apply and.intro,
-  
+  exact pornp,
+  exact qornq,
 end
 
 
